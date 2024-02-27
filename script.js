@@ -1,4 +1,5 @@
 const myLibrary = [];
+let cardIndex = 0;
 
 const lib = document.querySelector("main");
 const displayBookForm = document.querySelector(".add");
@@ -21,43 +22,43 @@ function addBookToLibrary(title, author, pages) {
 
 //Display books in the library to the page
 
-function displayBook() {
-  myLibrary.forEach((book) => {
-    const newTitle = document.createElement("h2");
-    newTitle.textContent = book.title;
+// function displayBook() {
+//   myLibrary.forEach((book) => {
+//     const newTitle = document.createElement("h2");
+//     newTitle.textContent = book.title;
 
-    const newAuthor = document.createElement("h3");
-    newAuthor.textContent = book.author;
+//     const newAuthor = document.createElement("h3");
+//     newAuthor.textContent = book.author;
 
-    const newPage = document.createElement("p");
-    newPage.textContent = book.pages;
+//     const newPage = document.createElement("p");
+//     newPage.textContent = book.pages;
 
-    const statusBtn = document.createElement("button");
-    statusBtn.textContent = "Read";
-    statusBtn.classList.add("status");
+//     const statusBtn = document.createElement("button");
+//     statusBtn.textContent = "Read";
+//     statusBtn.classList.add("status");
 
-    const removeBtn = document.createElement("button");
-    removeBtn.textContent = "Remove";
-    removeBtn.classList.add("remove");
+//     const removeBtn = document.createElement("button");
+//     removeBtn.textContent = "Remove";
+//     removeBtn.classList.add("remove");
 
-    const interact = document.createElement("div");
-    interact.classList.add("interact");
+//     const interact = document.createElement("div");
+//     interact.classList.add("interact");
 
-    interact.appendChild(statusBtn);
-    interact.appendChild(removeBtn);
+//     interact.appendChild(statusBtn);
+//     interact.appendChild(removeBtn);
 
-    const card = document.createElement("div");
-    card.classList.add("card");
-    card.appendChild(newTitle);
-    card.appendChild(newAuthor);
-    card.appendChild(newPage);
-    card.appendChild(interact);
-    lib.appendChild(card);
-  });
-}
+//     const card = document.createElement("div");
+//     card.classList.add("card");
+//     card.appendChild(newTitle);
+//     card.appendChild(newAuthor);
+//     card.appendChild(newPage);
+//     card.appendChild(interact);
+//     lib.appendChild(card);
+//   });
+// }
 
 //Display newly created book on the page
-function displayNewBook(title, author, pages) {
+function displayNewBook(title, author, pages, hasRead) {
   const newTitle = document.createElement("h2");
   newTitle.textContent = title;
 
@@ -68,12 +69,17 @@ function displayNewBook(title, author, pages) {
   newPage.textContent = pages;
 
   const statusBtn = document.createElement("button");
-  statusBtn.textContent = "Read";
-  statusBtn.classList.add("status");
+  if (hasRead.value === "Yes") {
+    statusBtn.textContent = "Read";
+    statusBtn.classList.add("status");
+  } else if (hasRead.value === "No") {
+    statusBtn.textContent = "Unread";
+    statusBtn.classList.add("undone");
+  }
 
   const removeBtn = document.createElement("button");
   removeBtn.textContent = "Remove";
-  removeBtn.classList.add("status");
+  removeBtn.classList.add("remove");
 
   const interact = document.createElement("div");
   interact.classList.add("interact");
@@ -88,6 +94,11 @@ function displayNewBook(title, author, pages) {
   card.appendChild(newPage);
   card.appendChild(interact);
   lib.appendChild(card);
+
+  const attribute = document.createAttribute("data-index");
+  attribute.value = cardIndex;
+  card.setAttributeNode(attribute);
+  cardIndex++;
 }
 
 //Initialized the form
@@ -101,7 +112,7 @@ function initForm() {
   pages.value = "";
 }
 
-document.addEventListener("DOMContentLoaded", displayBook);
+// document.addEventListener("DOMContentLoaded", displayBook);
 
 displayBookForm.addEventListener("click", () => {
   bookForm.classList.remove("hidden");
@@ -121,13 +132,29 @@ addBook.addEventListener("click", (e) => {
   const title = document.getElementById("title").value;
   const author = document.getElementById("author").value;
   const pages = document.getElementById("pages").value;
+  const hasRead = document.querySelector("input[name=readStatus]:checked");
 
-  if (title && author && pages) {
+  if (title && author && pages && hasRead) {
     e.preventDefault();
     addBookToLibrary(title, author, pages);
-    displayNewBook(title, author, pages);
+    displayNewBook(title, author, pages, hasRead);
     initForm();
 
     bookForm.classList.toggle("hidden");
+  }
+});
+
+lib.addEventListener("click", (e) => {
+  if (e.target.className === "remove") {
+    const card = e.target.parentNode.parentNode;
+    const indexInLib = card.dataset.index;
+    delete myLibrary[indexInLib];
+
+    const books = lib.querySelectorAll(".card");
+    for (book of books) {
+      if (book.dataset.index === indexInLib) {
+        book.remove();
+      }
+    }
   }
 });

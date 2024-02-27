@@ -118,7 +118,7 @@ form label {
   line-height: 2;
 }
 
-form label::after {
+form .row label::after {
   content: "*";
   color: red;
 }
@@ -145,11 +145,23 @@ form button {
   color: #ffffff;
   background-color: #e3b261;
   font-size: 1.3rem;
-  font-weight: 400;
+  font-weight: 600;
   padding: 0.3em 1.1em;
   border: none;
   border-radius: 5px;
   cursor: pointer;
+}
+
+form p {
+  color: #374151;
+  font-size: 1.13rem;
+  font-weight: 500;
+  line-height: 2;
+}
+
+form p::after {
+  content: "*";
+  color: red;
 }
 
 .close {
@@ -232,12 +244,21 @@ form button {
   padding: 0.6em 1.1em;
   border: none;
   border-radius: 5px;
-  cursor: pointer;
+}
+
+.undone {
+  color: #ffffff;
+  background-color: #db3a42;
+  font-size: 1rem;
+  font-weight: 500;
+  padding: 0.6em 1.1em;
+  border: none;
+  border-radius: 5px;
 }
 
 .remove {
   color: #ffffff;
-  background-color: #0d9488;
+  background-color: #e3b261;
   font-size: 1rem;
   font-weight: 500;
   padding: 0.6em 1.1em;
