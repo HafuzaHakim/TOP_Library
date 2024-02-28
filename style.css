@@ -236,22 +236,29 @@ form p::after {
 
 .status {
   color: #ffffff;
-  background-color: #0d9488;
+  background-color: #e3b261;
   font-size: 1rem;
   font-weight: 500;
   padding: 0.6em 1.1em;
   border: none;
   border-radius: 5px;
+  cursor: pointer;
+}
+
+.done {
+  background-color: #0d9488;
+}
+
+.done::before {
+  content: "Read";
 }
 
 .undone {
-  color: #ffffff;
   background-color: #db3a42;
-  font-size: 1rem;
-  font-weight: 500;
-  padding: 0.6em 1.1em;
-  border: none;
-  border-radius: 5px;
+}
+
+.undone::before {
+  content: "Unread";
 }
 
 .remove {

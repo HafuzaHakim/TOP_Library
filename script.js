@@ -69,11 +69,12 @@ function displayNewBook(title, author, pages, hasRead) {
   newPage.textContent = pages;
 
   const statusBtn = document.createElement("button");
+  statusBtn.classList.add("status");
   if (hasRead.value === "Yes") {
-    statusBtn.textContent = "Read";
-    statusBtn.classList.add("status");
+    // statusBtn.textContent = "Read";
+    statusBtn.classList.add("done");
   } else if (hasRead.value === "No") {
-    statusBtn.textContent = "Unread";
+    // statusBtn.textContent = "Unread";
     statusBtn.classList.add("undone");
   }
 
@@ -156,5 +157,13 @@ lib.addEventListener("click", (e) => {
         book.remove();
       }
     }
+  }
+});
+
+lib.addEventListener("click", (e) => {
+  if (e.target.classList.contains("status") === true) {
+    const statBtn = e.target;
+    statBtn.classList.toggle("undone");
+    statBtn.classList.toggle("done");
   }
 });
